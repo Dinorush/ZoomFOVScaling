@@ -2,6 +2,7 @@
 using BepInEx;
 using System.IO;
 using GTFO.API.Utilities;
+using System;
 
 namespace ZoomFOVScaling
 {
@@ -29,7 +30,7 @@ namespace ZoomFOVScaling
         {
             string section = "Base Settings";
             configFile.Reload();
-            BaseFOV = (float)configFile[section, "Base Field of View"].BoxedValue;
+            BaseFOV = Math.Max((float)configFile[section, "Base Field of View"].BoxedValue, 1f);
             FOVAffectWeaponZoom = (bool)configFile[section, "Zoom FOV Affects Weapons"].BoxedValue;
             FOVAffectWeaponHip = (bool)configFile[section, "Hip FOV Affects Weapons"].BoxedValue;
         }
