@@ -14,16 +14,20 @@ namespace ZoomFOVScaling.Patches
 
         [HarmonyPatch(nameof(ItemEquippable.GetItemFovZoom))]
         [HarmonyPostfix]
-        private static void Post_GetItemZoomFOV(ref float __result)
+        private static void Post_GetItemZoomFOV(ItemEquippable __instance, ref float __result)
         {
+            if (__instance.TryCast<Gear.BulletWeapon>() == null) return;
+
             if (Configuration.FOVAffectWeaponZoom)
                 __result = __result / Configuration.BaseFOV * CellSettingsManager.SettingsData.Video.Fov.Value;
         }
 
         [HarmonyPatch(nameof(ItemEquippable.GetItemFovNormal))]
         [HarmonyPostfix]
-        private static void Post_GetItemFOV(ref float __result)
+        private static void Post_GetItemFOV(ItemEquippable __instance, ref float __result)
         {
+            if (__instance.TryCast<Gear.BulletWeapon>() == null) return;
+
             if (Configuration.FOVAffectWeaponHip)
                 __result = __result / Configuration.BaseFOV * CellSettingsManager.SettingsData.Video.Fov.Value;
         }
